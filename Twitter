@@ -1,0 +1,29 @@
+# sentiment-analysis
+library(twitteR)
+library(RCurl)
+library(wordcloud)
+library(corpus)
+library(tm)
+api_key <- 'E3Z0pykxlAhS0QiiDIY7Pz0EH'
+api_secret_key <- '7Yge6TSXY5IwaeTD49mlSdtVlrhSNSBQHgsWBcpEtFBvRk1K7B'
+access_token <- '334645895-lUJ5FWdmd2AVj3xY39W01xk4Tf0PHpx6NZQdmcQV'
+access_token_secret <- 'OhY9thXAtrazblsrr0YvXEFnNjztjFgmzcsDzouut6IIS'
+setup_twitter_oauth(api_key,api_secret_key,access_token,access_token_secret)
+miningtweets <- searchTwitter('tokopedia+produk+enak', lang="id", n=500,resultType="recent")
+miningtweets_text <- sapply(miningtweets,function(x) x$getText())
+str(miningtweets_text)
+write.csv(miningtweets.df, file='~/Desktop/tokoped.csv', row.names = FALSE)
+
+corpus <- Corpus(VectorSource(miningtweets_text))
+inspect(corpus)
+bajak_clear <- tm_map(corpus, removePunctuation)
+bajak_clear <- tm_map(bajak_clear, removeNumbers)
+bajak_clear <- tm_map(bajak_clear, stripWhitespace)
+bajak_clear <- tm_map(bajak_clear, removeWords, c("barang","palsu","KW"))
+wordcloud(bajak_clear)
+library(wordcloud)
+wordcloud(mycorpus, min.freq = 5)
+
+
+miningtweets <- searchTwitter('tokopedia', lang="id", n=500,resultType="recent")
+miningtweets
